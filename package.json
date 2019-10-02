@@ -1,0 +1,17 @@
+{
+  "name": "ExpenTrak",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install-dep": "concurrently \"npm install --prefix frontend\" \"npm install --prefix backend\"",
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "start": "npm run build --prefix frontend && npm start --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^4.1.2"
+  }
+}
