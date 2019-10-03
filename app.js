@@ -17,7 +17,7 @@ app.use(express.urlencoded({
 app.use(morgan('dev'))
 
 // Api routes
-app.use('/api/auth', require('./api/auth.js'))
+app.use('/api/auth', require('./routes/auth.js'))
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "static")))
