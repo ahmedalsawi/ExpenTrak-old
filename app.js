@@ -21,12 +21,12 @@ app.use('/api/auth', require('./api/auth.js'))
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "static")))
-app.use(express.static(path.join(__dirname, '/../frontend/build')));
+app.use(express.static(path.join(__dirname, '/frontend/build')));
 
 // Route all other routes to frontend
 // '/' will be handled by front end
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/../frontend/build/index.html'));
+  res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
 });
 
 // Mongodb
