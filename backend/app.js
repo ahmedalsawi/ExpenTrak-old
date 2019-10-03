@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({
   extended: true
 }))
-app.use(morgan('tiny'))
+app.use(morgan('dev'))
 
 // Api routes
 app.use('/api/auth', require('./api/auth.js'))

@@ -11,7 +11,11 @@ import NotFound404Page from "components/NotFound404Page";
 import { Provider } from "react-redux";
 import store from "state-store/store";
 
+import { loadUser } from "state-store/actions/authActions";
 class App extends Component {
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
   render() {
     return (
       <div>

@@ -19,10 +19,8 @@ class RegisterPage extends Component {
     // Validation TODO
     // Register the user
     const newUser = {
-      username,
       email,
-      password,
-      password2
+      password
     };
     this.props.register(newUser);
   };

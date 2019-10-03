@@ -36,3 +36,12 @@ content-type: application/json
   "password": "1232"
 }
 
+
+###
+GET http://localhost:8000/api/auth/user
+Authorization: Token ddd
+
+
+###
+GET http://localhost:8000/api/auth/user
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjVkOTU0ZTUwMTM3NWNmNjc0MTA2ZWMwYyIsImVtYWlsIjoiYUBhLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJDZUM0RBaTVqVzFsWm41R0V1U3dTVi5YN1paZVdFc1BpWnVOY3RDTlZ2MU1VRlpPbTBVR2lHIiwiX192IjowfSwiaWF0IjoxNTcwMTQyODU5fQ.hspy5JX56XAzUUYgWUJNnlO0gjMoGSuDdcSz8oUTpsc

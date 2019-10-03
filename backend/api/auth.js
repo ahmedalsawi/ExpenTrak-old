@@ -6,67 +6,99 @@ const User = require('../models/UserModel.js')
 
 const router = express.Router()
 
-router.post('/login', function (req, res) {
-  const username = req.body.username;
-  const password = req.body.password;
+router.get('/user', function (req, res) {
 
-  User.findOne({
-    email: req.body.email
-  }, (err, user) => {
-    if (err) throw err;
-    if (user === null) {
-      res.json({
-        sucess: false,
-        message: "Invalid credentials"
+  const authHeader = req.header('Authorization')
+  if (typeof authHeader === "undefined") {
+    res.status(401).json({
+      message: "Missing Authorization header"
+    })
+    return;
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  jwt.verify(token, process.env.SECRET, function (err, decoded) {
+    if (err) {
+      res.status(401).json({
+        message: "Invalid credential"
       })
-      res.end()
-    } else {
-      bcrypt.compare(password, user.password, function (err, match) {
-        if (err) throw err;
-        if (match) {
-          // create jwt and send it back
-          jwt.sign({
-              data: user
-            }, process.env.SECRET,
-            function (err, token) {
-              res.json({
-                sucess: true,
-                token: token
-              })
-            });
-        } else {
-          res.json({
-            sucess: false,
-            message: "Invalid credentials"
-          })
-        }
-      });
+      return;
     }
+    const user = decoded.data;
+    res.status(200).json(
+      user
+    )
+  });
+})
 
+router.post('/login', async function (req, res) {
+  const {
+    email,
+    password
+  } = req.body;
+
+  const user = await User.findOne({
+    email: email
+  })
+
+  // User not found in db
+  if (user === null) {
+    res.status(401).json({
+      message: "Invalid credential"
+    })
+    return;
+  }
+  // Check password hash
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    res.status(401).json({
+      message: "Invalid credential"
+    })
+    return;
+  }
+  // Create jwt
+  const token = await jwt.sign({
+    data: user
+  }, process.env.SECRET)
+
+  res.status(200).json({
+    user: user,
+    token: token
   })
 })
 
-router.post('/register', function (req, res) {
+router.post('/register', async function (req, res) {
 
-  // Validate body TODO
-  // Look if user already exist
-  // Create User and save
+  const saltRounds = 10;
 
-  bcrypt.genSalt(10, function (err, salt) {
-    bcrypt.hash(req.body.password, salt, function (err, hash) {
-      if (err) throw err;
+  const {
+    email,
+    password,
+    username
+  } = req.body;
 
-      const user = new User({
-        email: req.body.email,
-        password: hash
-      })
 
-      user.save({}, (err, user) => {
-        if (err) throw err;
-        res.sendStatus(201);
-      });
-    });
-  });
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hash = await bcrypt.hash(password, salt);
+
+  const user = new User({
+    email: email,
+    password: hash,
+    username: username
+  })
+
+  const newUser = await user.save({});
+
+  // Create jwt
+  const token = await jwt.sign({
+    data: newUser
+  }, process.env.SECRET)
+
+  res.status(200).json({
+    user: newUser,
+    token: token
+  })
 })
 
 

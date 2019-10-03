@@ -1,17 +1,13 @@
 const mongoose = require('mongoose')
+const timestamps = require('mongoose-timestamp');
 
 const UserSchema = mongoose.Schema({
   email: String,
-  password: String
+  password: String,
+  username: String
 });
-
-// UserSchema.statics.st = (pw) => {
-//   console.log('static')
-// }
-
-// UserSchema.methods.FindUser = (email) => {
-//   console.log('method')
-// }
+UserSchema.plugin(timestamps);
 
 const User = mongoose.model('User', UserSchema);
+
 module.exports = User

@@ -98,14 +98,17 @@ export const register = ({
 
 // LOGOUT USER
 export const logout = () => (dispatch, getState) => {
-  axios
-    .post("/api/auth/logout/", null, tokenConfig(getState))
-    .then(res => {
-      dispatch({
-        type: LOGOUT_SUCCESS
-      });
-    })
-    .catch(err => {});
+  // axios
+  //   .post("/api/auth/logout/", null, tokenConfig(getState))
+  //   .then(res => {
+  //     dispatch({
+  //       type: LOGOUT_SUCCESS
+  //     });
+  //   })
+  //   .catch(err => {});
+  dispatch({
+    type: LOGOUT_SUCCESS
+  });
 };
 
 // Setup config with token - helper function
