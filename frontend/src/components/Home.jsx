@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import Dashboard from "components/pages/DashboardPage";
-import LandingPage from "components/pages/LandingPage";
+import Dashboard from "components/DashboardPage";
+import LandingPage from "components/LandingPage";
 
 import { connect } from "react-redux";
 import { loadUser } from "state-store/actions/authActions";

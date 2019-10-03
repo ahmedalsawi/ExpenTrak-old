@@ -16,19 +16,14 @@ class LoginPage extends Component {
 
     const { email, password } = this.state;
 
-    const user = {
-      password,
-      email
-    };
-
-    this.props.login(user);
+    this.props.login(email, password);
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     const { email, password } = this.state;
-
+    console.log(this.props.isAuthenticated);
     if (this.props.isAuthenticated) return <Redirect to="/" />;
 
     return (

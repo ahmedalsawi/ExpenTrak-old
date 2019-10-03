@@ -3,10 +3,10 @@ import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Home from "components/pages/Home";
-import LoginPage from "components/pages/LoginPage";
-import RegisterPage from "components/pages/RegisterPage";
-import NotFound404Page from "components/pages/NotFound404Page";
+import Home from "components/Home";
+import LoginPage from "components/LoginPage";
+import RegisterPage from "components/RegisterPage";
+import NotFound404Page from "components/NotFound404Page";
 
 import { Provider } from "react-redux";
 import store from "state-store/store";

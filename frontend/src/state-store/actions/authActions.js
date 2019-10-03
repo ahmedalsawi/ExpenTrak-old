@@ -14,7 +14,9 @@ import {
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
   // User Loading
-  dispatch({ type: USER_LOADING });
+  dispatch({
+    type: USER_LOADING
+  });
 
   axios
     .get("/api/auth/user", tokenConfig(getState))
@@ -41,7 +43,10 @@ export const login = (email, password) => dispatch => {
   };
 
   // Request Body
-  const body = JSON.stringify({ email, password });
+  const body = JSON.stringify({
+    email,
+    password
+  });
 
   axios
     .post("/api/auth/login", body, config)
@@ -59,7 +64,10 @@ export const login = (email, password) => dispatch => {
 };
 
 // REGISTER USER
-export const register = ({ password, email }) => dispatch => {
+export const register = ({
+  password,
+  email
+}) => dispatch => {
   // Headers
   const config = {
     headers: {
@@ -68,7 +76,10 @@ export const register = ({ password, email }) => dispatch => {
   };
 
   // Request Body
-  const body = JSON.stringify({ email, password });
+  const body = JSON.stringify({
+    email,
+    password
+  });
 
   axios
     .post("/api/auth/register", body, config)
