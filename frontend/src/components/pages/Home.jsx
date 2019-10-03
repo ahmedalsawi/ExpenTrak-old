@@ -4,8 +4,12 @@ import Dashboard from "components/pages/DashboardPage";
 import LandingPage from "components/pages/LandingPage";
 
 import { connect } from "react-redux";
+import { loadUser } from "state-store/actions/authActions";
 
 class Home extends Component {
+  componentDidMount() {
+    this.props.loadUser();
+  }
   render() {
     const isAuthenticated = this.props.isAuthenticated;
 
@@ -19,5 +23,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { loadUser }
 )(Home);

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { login } from "state-store/actions/authActions";
 
+import { Redirect } from "react-router-dom";
+
 class LoginPage extends Component {
   state = {
     email: "",
@@ -11,14 +13,17 @@ class LoginPage extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+
     const { email, password } = this.state;
-    const newUser = {
+
+    const user = {
       password,
       email
     };
-    console.log(newUser);
-    this.props.login(newUser);
+
+    this.props.login(user);
   };
+
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
@@ -38,7 +43,7 @@ class LoginPage extends Component {
             onChange={this.onChange}
             value={password}
           ></input>
-          <button type="submit">Regiser</button>
+          <button type="submit">Login</button>
         </form>
       </Wrapper>
     );
