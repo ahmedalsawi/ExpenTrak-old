@@ -14,7 +14,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authRedcuer.isAuthenticated
+  isAuthenticated: state.authReducer.isAuthenticated
 });
 
 export default connect(
