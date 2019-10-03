@@ -3,6 +3,8 @@ const path = require('path');
 const config = require('dotenv').config()
 const mongoose = require('mongoose');
 
+var morgan = require('morgan')
+
 // App
 const app = express();
 
@@ -12,10 +14,8 @@ app.use(express.json())
 app.use(express.urlencoded({
   extended: true
 }))
+app.use(morgan('tiny'))
 
-app.use(require('./middleware/logger')({
-  env: process.env.ENV
-}))
 // Api routes
 app.use('/api/auth', require('./api/auth.js'))
 
