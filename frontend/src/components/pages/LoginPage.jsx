@@ -28,6 +28,9 @@ class LoginPage extends Component {
 
   render() {
     const { email, password } = this.state;
+
+    if (this.props.isAuthenticated) return <Redirect to="/" />;
+
     return (
       <Wrapper>
         <form onSubmit={this.onSubmit}>
