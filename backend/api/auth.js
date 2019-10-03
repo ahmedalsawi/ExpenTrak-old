@@ -1,26 +1,49 @@
 const express = require('express')
-const router = express.Router()
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const User = require('../models/UserModel.js')
 
-router.post('/login', function (req, res) {
-  // User.find({}, (err, users) => {
-  //   console.log(users)
-  // })
+const router = express.Router()
 
-  // Validate
-  // Look for User, fail if not found
-  console.log(req.body.email)
+router.post('/login', function (req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
+
   User.findOne({
     email: req.body.email
   }, (err, user) => {
-    if (err) {
-      console.log(err)
+    if (err) throw err;
+    if (user === null) {
+      res.json({
+        sucess: false,
+        message: "Invalid credentials"
+      })
+      res.end()
+    } else {
+      bcrypt.compare(password, user.password, function (err, match) {
+        if (err) throw err;
+        if (match) {
+          // create jwt and send it back
+          jwt.sign({
+              data: user
+            }, process.env.SECRET,
+            function (err, token) {
+              res.json({
+                sucess: true,
+                token: token
+              })
+            });
+        } else {
+          res.json({
+            sucess: false,
+            message: "Invalid credentials"
+          })
+        }
+      });
     }
-    console.log(user)
-  })
-  res.send('Login')
 
+  })
 })
 
 router.post('/register', function (req, res) {
@@ -29,16 +52,22 @@ router.post('/register', function (req, res) {
   // Look if user already exist
   // Create User and save
 
-  const user = new User({
-    email: req.body.email,
-    password: req.body.password
-  })
-  user.save().then(
-    () => {
-      console.log("save done")
-    }
-  );
-  res.send('Regiser')
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(req.body.password, salt, function (err, hash) {
+      if (err) throw err;
+
+      const user = new User({
+        email: req.body.email,
+        password: hash
+      })
+
+      user.save({}, (err, user) => {
+        if (err) throw err;
+        res.sendStatus(201);
+      });
+    });
+  });
 })
+
 
 module.exports = router
