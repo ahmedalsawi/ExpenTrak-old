@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const config = require('dotenv').config()
+const mongoose = require('mongoose');
 
 // App
 const app = express();
@@ -28,7 +29,21 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/../frontend/build/index.html'));
 });
 
-PORT = process.env.PORT
-const server = app.listen(PORT, () => {
-  console.log(`Starting server on  ${PORT}`);
-})
+// Mongodb
+mongoose.connect(process.env.MONGODB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log(`Connected to Database ${process.env.MONGODB}`)
+
+  // Start The server
+  PORT = process.env.PORT
+  const server = app.listen(PORT, () => {
+    console.log(`Starting server on  ${PORT}`);
+  })
+});
