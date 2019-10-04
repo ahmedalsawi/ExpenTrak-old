@@ -28,21 +28,26 @@ app.use(express.urlencoded({
 }))
 app.use(morgan('dev'))
 
-
-
-// Api routes
+// Routes
 app.use('/api/auth', require('./routes/auth.js'))
-app.use('/api/transactions', require('./routes/transactions.js'))
+app.use('/api/transactions', require('./routes/transaction.routes.js'))
 
-// Serve static files
-app.use(express.static(path.join(__dirname, "static")))
-app.use(express.static(path.join(__dirname, '/frontend/build')));
-
-// Route all other routes to frontend
-// '/' will be handled by front end
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
+// Catch all 404
+app.use(function (req, res, next) {
+  return res.status(404).send({
+    message: 'Route ' + req.url + ' Not found.'
+  });
 });
+
+// // Serve static files
+// app.use(express.static(path.join(__dirname, "static")))
+// app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+// // Route all other routes to frontend
+// // '/' will be handled by front end
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
+// });
 
 // Mongodb
 mongoose.connect(process.env.MONGODB, {

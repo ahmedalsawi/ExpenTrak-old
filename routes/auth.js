@@ -13,7 +13,7 @@ const router = express.Router();
 
 const minifyUser = user => {
   return {
-    id: user._id,
+    _id: user._id,
     email: user.email,
     username: user.username
   };

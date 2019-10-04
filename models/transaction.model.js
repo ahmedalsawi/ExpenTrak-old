@@ -3,8 +3,10 @@ const timestamps = require('mongoose-timestamp');
 
 const TransactionSchema = mongoose.Schema({
   name: {
-    type: String,
-    required: true
+    type: String
+  },
+  amount: {
+    type: Number
   },
   date: {
     type: Date,
@@ -12,7 +14,9 @@ const TransactionSchema = mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    immutable: true,
+    require: true
   },
 });
 TransactionSchema.plugin(timestamps);
