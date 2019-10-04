@@ -18,6 +18,7 @@ app.use(morgan('dev'))
 
 // Api routes
 app.use('/api/auth', require('./routes/auth.js'))
+app.use('/api/transactions', require('./routes/transactions.js'))
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "static")))

@@ -6,30 +6,8 @@ const User = require('../models/UserModel.js')
 
 const router = express.Router()
 
-router.get('/user', function (req, res) {
-
-  const authHeader = req.header('Authorization')
-  if (typeof authHeader === "undefined") {
-    res.status(401).json({
-      message: "Missing Authorization header"
-    })
-    return;
-  }
-
-  const token = authHeader.split(' ')[1];
-
-  jwt.verify(token, process.env.SECRET, function (err, decoded) {
-    if (err) {
-      res.status(401).json({
-        message: "Invalid credential"
-      })
-      return;
-    }
-    const user = decoded.data;
-    res.status(200).json(
-      user
-    )
-  });
+router.get('/user', require('../middleware/jwtAuthMW'), function (req, res) {
+  res.status(200).json(req.user);
 })
 
 router.post('/login', async function (req, res) {
@@ -58,6 +36,7 @@ router.post('/login', async function (req, res) {
     return;
   }
   // Create jwt
+  // TODO don't send the whole user object
   const token = await jwt.sign({
     data: user
   }, process.env.SECRET)
