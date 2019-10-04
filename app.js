@@ -5,16 +5,30 @@ const mongoose = require('mongoose');
 
 var morgan = require('morgan')
 
+const rateLimit = require("express-rate-limit");
+
 // App
 const app = express();
 
 // Middleware
 app.use(require('helmet')()); // Security module
+
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+// app.set('trust proxy', 1);
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 500 // limit each IP to N requests per windowMs
+});
+
+app.use(limiter);
 app.use(express.json())
 app.use(express.urlencoded({
   extended: true
 }))
 app.use(morgan('dev'))
+
+
 
 // Api routes
 app.use('/api/auth', require('./routes/auth.js'))
