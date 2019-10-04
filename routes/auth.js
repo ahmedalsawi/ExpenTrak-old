@@ -1,84 +1,112 @@
-const express = require('express')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const User = require('../models/UserModel.js')
+const User = require("../models/UserModel.js");
 
-const router = express.Router()
+const {
+  registerValidation,
+  loginValidation
+} = require("../validation/auth.validation.js");
 
-router.get('/user', require('../middleware/jwtAuthMW'), function (req, res) {
+const router = express.Router();
+
+const minifyUser = user => {
+  return {
+    id: user._id,
+    email: user.email,
+    username: user.username
+  };
+};
+
+router.get("/user", require("../middleware/jwtAuthMW"), function (req, res) {
   res.status(200).json(req.user);
-})
+});
 
-router.post('/login', async function (req, res) {
-  const {
-    email,
-    password
-  } = req.body;
+router.post("/login", async function (req, res) {
+  const validatedForm = loginValidation(req.body);
+  if (validatedForm.error) {
+    return res.status(400).json({
+      message: validatedForm.error.details[0].message
+    });
+  }
 
+  // Check if user  exist
   const user = await User.findOne({
-    email: email
-  })
+    email: validatedForm.value.email
+  });
+  if (!user) {
+    return res.status(400).json({
+      message: "Invalid password or email"
+    });
+  }
 
-  // User not found in db
-  if (user === null) {
-    res.status(401).json({
-      message: "Invalid credential"
-    })
-    return;
+  const validPassword = await bcrypt.compare(
+    validatedForm.value.password,
+    user.password
+  );
+  if (!validPassword) {
+    return res.status(400).json({
+      message: "Invalid password or email"
+    });
   }
-  // Check password hash
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) {
-    res.status(401).json({
-      message: "Invalid credential"
-    })
-    return;
-  }
-  // Create jwt
-  // TODO don't send the whole user object
+
   const token = await jwt.sign({
-    data: user
-  }, process.env.SECRET)
-
+      data: minifyUser(user)
+    },
+    process.env.SECRET
+  );
   res.status(200).json({
-    user: user,
+    user: minifyUser(user),
     token: token
-  })
-})
+  });
+});
 
-router.post('/register', async function (req, res) {
+router.post("/register", async function (req, res) {
+  const validatedForm = registerValidation(req.body);
+  if (validatedForm.error) {
+    return res.status(400).json({
+      message: validatedForm.error.details[0].message
+    });
+  }
 
-  const saltRounds = 10;
+  // Check if user already exist
+  const emailExist = await User.findOne({
+    email: validatedForm.value.email
+  });
+  if (emailExist) {
+    return res.status(400).json({
+      message: "Email already exists"
+    });
+  }
 
-  const {
-    email,
-    password,
-    username
-  } = req.body;
-
-
-  const salt = await bcrypt.genSalt(saltRounds);
-  const hash = await bcrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(validatedForm.value.password, salt);
 
   const user = new User({
-    email: email,
+    email: validatedForm.value.email,
     password: hash,
-    username: username
-  })
+    username: validatedForm.value.username
+  });
 
-  const newUser = await user.save({});
+  try {
+    const newUser = await user.save();
 
-  // Create jwt
-  const token = await jwt.sign({
-    data: newUser
-  }, process.env.SECRET)
+    const token = await jwt.sign({
+        data: minifyUser(newUser)
+      },
+      process.env.SECRET
+    );
 
-  res.status(200).json({
-    user: newUser,
-    token: token
-  })
-})
+    res.status(200).json({
+      user: minifyUser(newUser),
+      token: token
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: err
+    });
+  }
+});
 
-
-module.exports = router
+module.exports = router;

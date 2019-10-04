@@ -17,7 +17,7 @@ function jwtAuthMW(req, res, next) {
     next();
   } catch (e) {
     res.status(400).json({
-      msg: 'Invalid credential'
+      msg: 'Invalid Token'
     });
   }
 }
