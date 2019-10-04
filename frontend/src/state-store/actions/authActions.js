@@ -11,7 +11,7 @@ import {
   REGISTER_FAIL
 } from "./actionTypes";
 
-// CHECK TOKEN & LOAD USER
+
 export const loadUser = () => (dispatch, getState) => {
   // User Loading
   dispatch({
@@ -33,16 +33,15 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-// LOGIN USER
+
 export const login = (email, password) => dispatch => {
-  // Headers
+
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  // Request Body
   const body = JSON.stringify({
     email,
     password
@@ -63,23 +62,18 @@ export const login = (email, password) => dispatch => {
     });
 };
 
-// REGISTER USER
-export const register = ({
-  password,
-  email
-}) => dispatch => {
-  // Headers
+
+export const register = (userInfo) => dispatch => {
+
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  // Request Body
-  const body = JSON.stringify({
-    email,
-    password
-  });
+  const body = JSON.stringify(
+    userInfo
+  );
 
   axios
     .post("/api/auth/register", body, config)
@@ -113,17 +107,14 @@ export const logout = () => (dispatch, getState) => {
 
 // Setup config with token - helper function
 export const tokenConfig = getState => {
-  // Get token from state
   const token = getState().authReducer.token;
 
-  // Headers
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
 
-  // If token, add to headers config
   if (token) {
     config.headers["Authorization"] = `Token ${token}`;
   }
