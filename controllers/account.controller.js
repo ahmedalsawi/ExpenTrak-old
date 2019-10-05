@@ -1,17 +1,17 @@
 const Joi = require('@hapi/joi')
 
-const Label = require('../models/label.model.js');
+const Account = require('../models/account.model.js');
 
-const labelValidation = (data) => {
+const AccountValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required()
   })
   return schema.validate(data);
 }
 
-const getLabels = async (req, res) => {
+const getAccounts = async (req, res) => {
   try {
-    const trans = await Label.find({
+    const trans = await Account.find({
       user: req.user._id
     })
     return res.status(200).json(trans)
@@ -20,10 +20,10 @@ const getLabels = async (req, res) => {
   }
 }
 
-const getLabel = async (req, res) => {
+const getAccount = async (req, res) => {
   id = req.params.id;
   try {
-    const tran = await Label.findOne({
+    const tran = await Account.findOne({
       user: req.user._id,
       _id: id
     })
@@ -43,16 +43,16 @@ const getLabel = async (req, res) => {
   }
 }
 
-const createLabel = async (req, res) => {
+const createAccount = async (req, res) => {
 
-  const validated = labelValidation(req.body)
+  const validated = AccountValidation(req.body)
   if (validated.error) {
     return res.status(400).json({
       message: validated.error.details[0].message
     });
   }
 
-  const tran = new Label({
+  const tran = new Account({
     ...validated.value,
     user: req.user._id
   })
@@ -68,8 +68,8 @@ const createLabel = async (req, res) => {
   }
 }
 
-const updateLabel = async (req, res) => {
-  const validated = labelValidation(req.body)
+const updateAccount = async (req, res) => {
+  const validated = AccountValidation(req.body)
   if (validated.error) {
     return res.status(400).json({
       message: validated.error.details[0].message
@@ -78,7 +78,7 @@ const updateLabel = async (req, res) => {
 
   id = req.params.id;
   try {
-    const tran = await Label.findOneAndUpdate({
+    const tran = await Account.findOneAndUpdate({
       user: req.user._id,
       _id: id
     }, {
@@ -102,13 +102,14 @@ const updateLabel = async (req, res) => {
   }
 }
 
-const deleteLabel = async (req, res) => {
+const deleteAccount = async (req, res) => {
   id = req.params.id;
   try {
-    const tran = await Label.findOneAndRemove({
+    const tran = await Account.findOneAndRemove({
       user: req.user._id,
       _id: id
     })
+    console.log(id)
     if (!tran) {
       return res.status(404).json({
         message: "Not Found " + id
@@ -127,9 +128,9 @@ const deleteLabel = async (req, res) => {
 
 
 module.exports = {
-  getLabels,
-  getLabel,
-  createLabel,
-  updateLabel,
-  deleteLabel
+  getAccounts,
+  getAccount,
+  createAccount,
+  updateAccount,
+  deleteAccount
 }

@@ -16,8 +16,12 @@ const TransactionSchema = mongoose.Schema({
   },
   labels: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Label'
+    ref: 'Labels'
   }],
+  account: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account'
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
