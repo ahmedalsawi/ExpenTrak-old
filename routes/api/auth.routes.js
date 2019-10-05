@@ -1,13 +1,28 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Joi = require('@hapi/joi')
+
 
 const User = require("../../models/auth.model.js");
 
-const {
-  registerValidation,
-  loginValidation
-} = require("../../validation/auth.validation.js");
+const registerValidation = (data) => {
+  const schema = Joi.object({
+    username: Joi.string().required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required()
+  })
+  return schema.validate(data);
+}
+
+const loginValidation = (data) => {
+  const schema = Joi.object({
+    email: Joi.string().required().email(),
+    password: Joi.string().required()
+  })
+  return schema.validate(data);
+}
+
 
 const router = express.Router();
 

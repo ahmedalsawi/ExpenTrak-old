@@ -4,9 +4,19 @@ const router = express.Router()
 router.use(require('../../middleware/jwtAuthMW.js'))
 
 const Transaction = require('../../models/transaction.model.js');
-const {
-  transactionValidation
-} = require('../../validation/transaction.validation.js');
+
+const Joi = require('@hapi/joi')
+
+const transactionValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string(),
+    amount: Joi.number(),
+    date: Joi.date(),
+    labels: Joi.array(),
+    notes: Joi.string(),
+  })
+  return schema.validate(data);
+}
 
 
 router.post('/', async (req, res) => {
