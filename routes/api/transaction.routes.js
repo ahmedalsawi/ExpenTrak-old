@@ -1,24 +1,24 @@
 const express = require('express')
 const router = express.Router()
 
-router.use(require('../middleware/jwtAuthMW.js'))
+router.use(require('../../middleware/jwtAuthMW.js'))
 
-const Label = require('../models/label.model.js');
+const Transaction = require('../../models/transaction.model.js');
 const {
-  labelValidation
-} = require('../validation/label.validation.js');
+  transactionValidation
+} = require('../../validation/transaction.validation.js');
 
 
 router.post('/', async (req, res) => {
 
-  const validated = labelValidation(req.body)
+  const validated = transactionValidation(req.body)
   if (validated.error) {
     return res.status(400).json({
       message: validated.error.details[0].message
     });
   }
 
-  const tran = new Label({
+  const tran = new Transaction({
     ...validated.value,
     user: req.user._id
   })
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const trans = await Label.find({
+    const trans = await Transaction.find({
       user: req.user._id
     })
     return res.status(200).json(trans)
@@ -46,65 +46,65 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:labelId', async (req, res) => {
-  labelId = req.params.labelId;
+router.get('/:transactionId', async (req, res) => {
+  transactionId = req.params.transactionId;
   try {
-    const tran = await Label.findOne({
+    const tran = await Transaction.findOne({
       user: req.user._id,
-      _id: labelId
+      _id: transactionId
     })
     if (!tran) {
       return res.status(404).json({
-        message: "Not Found " + labelId
+        message: "Not Found " + transactionId
       });
     }
     return res.status(200).json(tran)
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({
-        message: "Not Found " + labelId
+        message: "Not Found " + transactionId
       });
     }
     return res.sendStatus(500);
   }
 });
 
-router.delete('/:labelId', async (req, res) => {
-  labelId = req.params.labelId;
+router.delete('/:transactionId', async (req, res) => {
+  transactionId = req.params.transactionId;
   try {
-    const tran = await Label.findOneAndRemove({
+    const tran = await Transaction.findOneAndRemove({
       user: req.user._id,
-      _id: labelId
+      _id: transactionId
     })
     if (!tran) {
       return res.status(404).json({
-        message: "Not Found " + labelId
+        message: "Not Found " + transactionId
       });
     }
     return res.sendStatus(204);
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({
-        message: "Not Found " + labelId
+        message: "Not Found " + transactionId
       });
     }
     return res.sendStatus(500);
   }
 });
 
-router.put('/:labelId', async (req, res) => {
-  const validated = labelValidation(req.body)
+router.put('/:transactionId', async (req, res) => {
+  const validated = transactionValidation(req.body)
   if (validated.error) {
     return res.status(400).json({
       message: validated.error.details[0].message
     });
   }
 
-  labelId = req.params.labelId;
+  transactionId = req.params.transactionId;
   try {
-    const tran = await Label.findOneAndUpdate({
+    const tran = await Transaction.findOneAndUpdate({
       user: req.user._id,
-      _id: labelId
+      _id: transactionId
     }, {
       ...validated.value,
     }, {
@@ -112,14 +112,14 @@ router.put('/:labelId', async (req, res) => {
     })
     if (!tran) {
       return res.status(404).json({
-        message: "Not Found " + labelId
+        message: "Not Found " + transactionId
       });
     }
     return res.status(200).json(tran)
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({
-        message: "Not Found " + labelId
+        message: "Not Found " + transactionId
       });
     }
     return res.sendStatus(500);

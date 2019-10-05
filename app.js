@@ -29,9 +29,8 @@ app.use(express.urlencoded({
 app.use(morgan('dev'))
 
 // Routes
-app.use('/api/auth', require('./routes/auth.routes.js'))
-app.use('/api/transactions', require('./routes/transaction.routes.js'))
-app.use('/api/labels', require('./routes/label.routes.js'))
+app.use('/api', require('./routes/api/'))
+
 
 // Catch all 404
 app.use(function (req, res, next) {

@@ -2,12 +2,12 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/auth.model.js");
+const User = require("../../models/auth.model.js");
 
 const {
   registerValidation,
   loginValidation
-} = require("../validation/auth.validation.js");
+} = require("../../validation/auth.validation.js");
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ const minifyUser = user => {
   };
 };
 
-router.get("/user", require("../middleware/jwtAuthMW"), function (req, res) {
+router.get("/user", require("../../middleware/jwtAuthMW"), function (req, res) {
   res.status(200).json(req.user);
 });
 
