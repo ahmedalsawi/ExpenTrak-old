@@ -11,15 +11,18 @@ const TransactionSchema = mongoose.Schema({
   date: {
     type: Date
   },
+  notes: {
+    type: String
+  },
+  labels: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Label'
+  }],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     immutable: true,
     require: true
-  },
-  label: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Label'
   }
 });
 TransactionSchema.plugin(timestamps);

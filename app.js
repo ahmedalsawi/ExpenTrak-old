@@ -31,6 +31,7 @@ app.use(morgan('dev'))
 // Routes
 app.use('/api/auth', require('./routes/auth.routes.js'))
 app.use('/api/transactions', require('./routes/transaction.routes.js'))
+app.use('/api/labels', require('./routes/label.routes.js'))
 
 // Catch all 404
 app.use(function (req, res, next) {
@@ -54,6 +55,7 @@ mongoose.connect(process.env.MONGODB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false
 });
 
 var db = mongoose.connection;

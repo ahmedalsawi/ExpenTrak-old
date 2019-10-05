@@ -4,7 +4,9 @@ const transactionValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string(),
     amount: Joi.number(),
-    date: Joi.date()
+    date: Joi.date(),
+    labels: Joi.array(),
+    notes: Joi.string(),
   })
   return schema.validate(data);
 }
