@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-export default function SideBar() {
+export default function SideNav() {
   return (
-    <Wrapper className="sticky-top">
+    <Wrapper>
       <div className="list-group">
         <NavLink
           to="/dashboard"
@@ -25,4 +25,4 @@ export default function SideBar() {
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.nav``;
