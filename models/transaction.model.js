@@ -9,8 +9,7 @@ const TransactionSchema = mongoose.Schema({
     type: Number
   },
   date: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +17,10 @@ const TransactionSchema = mongoose.Schema({
     immutable: true,
     require: true
   },
+  label: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Label'
+  }
 });
 TransactionSchema.plugin(timestamps);
 
