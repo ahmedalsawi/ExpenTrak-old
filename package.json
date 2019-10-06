@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon ./backend/app.js",
     "start": "npm run build --prefix frontend && node app.js",
     "test": "",
     "dev-all": "concurrently \"BROWSER=none npm run dev --prefix frontend\" \"npm run dev\""

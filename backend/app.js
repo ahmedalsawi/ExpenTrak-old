@@ -29,7 +29,7 @@ app.use(express.urlencoded({
 app.use(morgan('dev'))
 
 // Routes
-app.use('/api', require('./routes/api/'))
+app.use('/api', require('./routes/api'))
 
 
 // Catch all 404
