@@ -109,7 +109,6 @@ const deleteAccount = async (req, res) => {
       user: req.user._id,
       _id: id
     })
-    console.log(id)
     if (!tran) {
       return res.status(404).json({
         message: "Not Found " + id
