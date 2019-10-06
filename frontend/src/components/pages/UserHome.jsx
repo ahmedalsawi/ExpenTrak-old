@@ -7,6 +7,7 @@ import SideBar from "components/layout/SideNav";
 
 import Dashboard from "components/Dashboard";
 import Transactions from "components/Transactions/Transactions";
+import Breadcrumb from "components/layout/Breadcrumb";
 
 class UserHome extends Component {
   render() {
@@ -19,6 +20,7 @@ class UserHome extends Component {
               <SideBar />
             </div>
             <div className="col-12 col-md-9 col-xl-8" id="main-panel">
+              <Breadcrumb />
               <Switch>
                 <Route
                   path="/"
