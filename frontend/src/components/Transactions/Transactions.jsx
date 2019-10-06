@@ -1,74 +1,29 @@
 import React, { Component } from "react";
 
-import { Switch, Route, withRouter, Link } from "react-router-dom";
-
-import apiObject from "api/index";
+import { Switch, Route, Link } from "react-router-dom";
 
 import TransactionsList from "components/Transactions/TransactionsList";
 import TransactionsForm from "components/Transactions/TransactionsForm";
 import TransactionsDetails from "components/Transactions/TransactionsDetails";
 
 class Transactions extends Component {
-  state = {
-    transactions: [],
-    _isMounted: false
-  };
-
-  componentDidMount() {
-    this._isMounted = true;
-
-    apiObject.transactionAPI
-      .getAllRes()
-      .then(
-        data =>
-          this._isMounted &&
-          this.setState({ ...this.state, transactions: data })
-      )
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  addTransaction = resource => {
-    apiObject.transactionAPI
-      .postOneRes(resource)
-      .then(data => {
-        this._isMounted &&
-          this.setState({
-            ...this.state,
-            transactions: [data, ...this.state.transactions]
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   render() {
     return (
       <div>
-        <Link className="btn btn-secondary" to={`${this.props.match.url}/new`}>
+        <Link className="btn " to={`${this.props.match.url}/new`}>
           New
         </Link>
         <Switch>
           <Route
             path={`${this.props.match.url}`}
             exact
-            component={() => (
-              <TransactionsList transactions={this.state.transactions} />
-            )}
+            component={TransactionsList}
           />
 
           <Route
             path={`${this.props.match.url}/new`}
             exact
-            component={() => (
-              <TransactionsForm onSubmit={this.addTransaction} />
-            )}
+            component={TransactionsForm}
           />
 
           <Route
@@ -82,4 +37,4 @@ class Transactions extends Component {
   }
 }
 
-export default withRouter(Transactions);
+export default Transactions;

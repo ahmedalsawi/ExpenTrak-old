@@ -25,15 +25,8 @@ class UserHome extends Component {
                   component={() => <Redirect to="/dashboard" />}
                   exact
                 />
-                <Route
-                  path="/dashboard"
-                  component={() => <Dashboard />}
-                  exact
-                />
-                <Route
-                  path="/transactions"
-                  component={() => <Transactions />}
-                />
+                <Route path="/dashboard" component={Dashboard} exact />
+                <Route path="/transactions" component={Transactions} />
               </Switch>
             </div>
           </div>

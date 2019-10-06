@@ -15,6 +15,8 @@ const transactionValidation = (data) => {
     labels: Joi.array(),
     notes: Joi.string(),
     account: Joi.string()
+  }).options({
+    stripUnknown: true // Allow extra fields in sent object
   })
   return schema.validate(data);
 }
@@ -110,6 +112,7 @@ router.put('/:transactionId', async (req, res) => {
       message: validated.error.details[0].message
     });
   }
+  console.log(validated)
 
   transactionId = req.params.transactionId;
   try {
