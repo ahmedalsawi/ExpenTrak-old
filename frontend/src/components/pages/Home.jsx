@@ -26,14 +26,14 @@ class Home extends Component {
         </div>
         <div id="main-panel">
           <NavBar />
-          <Redirect to="/dashboard" />
           <Switch>
-            <Route path="/dashboard" component={() => <Dashboard />} exact />
             <Route
-              path="/transactions"
-              component={() => <Transactions />}
+              path="/"
+              component={() => <Redirect to="/dashboard" />}
               exact
             />
+            <Route path="/dashboard" component={() => <Dashboard />} exact />
+            <Route path="/transactions" component={() => <Transactions />} />
           </Switch>
         </div>
       </Wrapper>
