@@ -112,7 +112,6 @@ router.put('/:transactionId', async (req, res) => {
       message: validated.error.details[0].message
     });
   }
-  console.log(validated)
 
   transactionId = req.params.transactionId;
   try {
