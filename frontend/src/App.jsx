@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -16,6 +15,12 @@ import { loadUser } from "state-store/actions/authActions";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
+
+// bootswatch theme cosmo
+import "assets/css/bootstrap.min.css";
+
+import "./App.css";
+
 class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());

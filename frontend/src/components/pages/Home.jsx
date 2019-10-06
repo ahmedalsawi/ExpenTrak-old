@@ -20,21 +20,32 @@ class Home extends Component {
     if (!isAuthenticated) return <GuestView />;
 
     return (
-      <Wrapper className="container">
-        <div id="sidebar">
-          <SideBar />
-        </div>
-        <div id="main-panel">
-          <NavBar />
-          <Switch>
-            <Route
-              path="/"
-              component={() => <Redirect to="/dashboard" />}
-              exact
-            />
-            <Route path="/dashboard" component={() => <Dashboard />} exact />
-            <Route path="/transactions" component={() => <Transactions />} />
-          </Switch>
+      <Wrapper>
+        <NavBar />
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12 col-md-3 col-xl-2" id="sidebar">
+              <SideBar />
+            </div>
+            <div className="col-12 col-md-9 col-xl-8" id="main-panel">
+              <Switch>
+                <Route
+                  path="/"
+                  component={() => <Redirect to="/dashboard" />}
+                  exact
+                />
+                <Route
+                  path="/dashboard"
+                  component={() => <Dashboard />}
+                  exact
+                />
+                <Route
+                  path="/transactions"
+                  component={() => <Transactions />}
+                />
+              </Switch>
+            </div>
+          </div>
         </div>
       </Wrapper>
     );

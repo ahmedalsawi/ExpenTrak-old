@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export default function SideNav() {
   return (
     <Wrapper>
-      <div className="list-group">
+      <nav className="list-group">
         <NavLink
           to="/dashboard"
           className="list-group-item"
@@ -20,9 +20,9 @@ export default function SideNav() {
         >
           Transactions
         </NavLink>
-      </div>
+      </nav>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.nav``;
+const Wrapper = styled.div``;
