@@ -4,69 +4,9 @@ import { Switch, Route, withRouter, Link } from "react-router-dom";
 
 import apiObject from "api/index";
 
-class TransactionForm extends Component {
-  state = {
-    name: ""
-  };
-
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
-
-  onSubmit = e => {
-    e.preventDefault();
-    this.props.onSubmit(this.state);
-  };
-  render() {
-    const { name } = this.state;
-    return (
-      <div>
-        <form onSubmit={this.onSubmit} className="form-group">
-          <input
-            type="text"
-            name="name"
-            onChange={this.onChange}
-            value={name}
-            className="form-control"
-            placeholder="Name"
-          ></input>
-          <button type="submit" className="btn btn-primary">
-            Save
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
-
-class TransactionList extends Component {
-  render() {
-    return (
-      <div>
-        {this.props.transactions.map(item => (
-          <p key={item._id}>
-            <Link to={`transactions/${item._id}`}>{item.name}</Link>
-          </p>
-        ))}
-      </div>
-    );
-  }
-}
-
-class TransactionDetails extends Component {
-  state = {};
-  componentDidMount() {
-    apiObject.transactionAPI
-      .getOneRes(this.props.match.params.Id)
-      .then(data => {
-        this.setState(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  render() {
-    return <div>{this.state.name}</div>;
-  }
-}
+import TransactionsList from "components/Transactions/TransactionsList";
+import TransactionsForm from "components/Transactions/TransactionsForm";
+import TransactionsDetails from "components/Transactions/TransactionsDetails";
 
 class Transactions extends Component {
   state = {
@@ -118,20 +58,22 @@ class Transactions extends Component {
             path={`${this.props.match.url}`}
             exact
             component={() => (
-              <TransactionList transactions={this.state.transactions} />
+              <TransactionsList transactions={this.state.transactions} />
             )}
           />
 
           <Route
             path={`${this.props.match.url}/new`}
             exact
-            component={() => <TransactionForm onSubmit={this.addTransaction} />}
+            component={() => (
+              <TransactionsForm onSubmit={this.addTransaction} />
+            )}
           />
 
           <Route
             path={`${this.props.match.url}/:Id`}
             exact
-            component={TransactionDetails}
+            component={TransactionsDetails}
           />
         </Switch>
       </div>
