@@ -51,8 +51,9 @@ class Transactions extends Component {
   render() {
     return (
       <div>
-        <Link to={`${this.props.match.url}/new`}>New</Link>
-        <Link to={`${this.props.match.url}`}>List</Link>
+        <Link className="btn btn-secondary" to={`${this.props.match.url}/new`}>
+          New
+        </Link>
         <Switch>
           <Route
             path={`${this.props.match.url}`}
