@@ -2,8 +2,6 @@ import React, { Component } from "react";
 
 import { Switch, Route, withRouter, Link } from "react-router-dom";
 
-import API from "api/API";
-
 import apiObject from "api/index";
 
 class TransactionForm extends Component {
@@ -76,9 +74,6 @@ class Transactions extends Component {
     _isMounted: false
   };
 
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     this._isMounted = true;
 

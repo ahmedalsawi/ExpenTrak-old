@@ -1,4 +1,6 @@
-import API from "./API"
+import {
+  API
+} from "./APIUtils"
 
 const apiObject = {
   transactionAPI: new API("/api/transactions")
