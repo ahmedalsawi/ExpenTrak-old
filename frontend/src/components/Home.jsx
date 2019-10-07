@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
-import GuestHome from "components/pages/GuestHome";
+import GuestHome from "components/GuestHome";
 import UserHome from "./UserHome";
 
 class Home extends Component {

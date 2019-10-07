@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import { Switch, Route, Link } from "react-router-dom";
 
-import TransactionsList from "components/Transactions/TransactionsList";
-import TransactionsForm from "components/Transactions/TransactionsForm";
-import TransactionsDetails from "components/Transactions/TransactionsDetails";
+import TransactionsList from "components/TransactionsList";
+import TransactionsForm from "components/TransactionsForm";
+import TransactionsDetails from "components/TransactionsDetails";
 
 class Transactions extends Component {
   render() {

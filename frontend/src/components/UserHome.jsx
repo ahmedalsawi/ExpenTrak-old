@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import NavBar from "components/layout/NavBar";
-import SideBar from "components/layout/SideNav";
+import NavBar from "components/NavBar";
+import SideBar from "components/SideNav";
 
 import Dashboard from "components/Dashboard";
-import Transactions from "components/Transactions/Transactions";
-import Breadcrumb from "components/layout/Breadcrumb";
+import Transactions from "components/Transactions";
+import Breadcrumb from "components/Breadcrumb";
 
 class UserHome extends Component {
   render() {
