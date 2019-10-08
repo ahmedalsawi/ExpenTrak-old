@@ -3,18 +3,18 @@ const router = express.Router()
 
 router.use(require('../../middleware/jwtAuthMW.js'))
 
-const {
-  getAccounts,
-  getAccount,
-  createAccount,
-  updateAccount,
-  deleteAccount,
-} = require('./account.controller')
+const Account = require('./account.model.js');
 
-router.get('/', getAccounts)
-router.post('/', createAccount)
-router.get('/:id', getAccount)
-router.put('/:id', updateAccount)
-router.delete('/:id', deleteAccount)
+const AccountValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required()
+  })
+  return schema.validate(data);
+}
+
+const APIViewSet = require("../../lib/express-rest-framework")
+const api = new APIViewSet(Account, AccountValidation)
+api.routes('', router)
+
 
 module.exports = router
