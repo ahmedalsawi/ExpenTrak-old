@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import apiObject from "api/index";
 
-import NotFount404Page from "components/NotFound404Page";
+import NotFount404Page from "components/pages/NotFound404Page";
 
-import TransactionsForm from "components/TransactionsForm";
+import TransactionsForm from "components/organisms/TransactionsForm";
 
 function TransactionsDetailsView({ transaction, onDelete, onEdit }) {
   return (

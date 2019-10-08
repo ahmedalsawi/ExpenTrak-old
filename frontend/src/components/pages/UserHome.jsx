@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import NavBar from "components/NavBar";
-import SideBar from "components/SideNav";
+import NavBar from "components/organisms/NavBar";
+import SideBar from "components/molecules/SideNav";
 
-import Dashboard from "components/Dashboard";
-import Transactions from "components/Transactions";
-import Breadcrumb from "components/Breadcrumb";
+import Dashboard from "components/organisms/Dashboard";
+import Transactions from "components/organisms/Transactions";
+import Breadcrumb from "components/molecules/Breadcrumb";
 
 class UserHome extends Component {
   render() {

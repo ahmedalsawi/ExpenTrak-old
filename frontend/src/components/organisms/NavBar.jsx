@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { logout } from "state-store/actions/authActions";
-import QuickAccessWidget from "./QuickAccessWidget";
-import ProfileWidget from "./ProfileWidget";
+import { QuickAccessWidget, ProfileWidget } from "components";
 
 class NavBar extends Component {
   render() {
