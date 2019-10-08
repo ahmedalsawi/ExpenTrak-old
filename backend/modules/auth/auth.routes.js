@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Joi = require('@hapi/joi')
 
 
-const User = require("../../models/auth.model.js");
+const User = require("./auth.model.js");
 
 const registerValidation = (data) => {
   const schema = Joi.object({

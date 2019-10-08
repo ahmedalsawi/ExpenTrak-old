@@ -9,7 +9,7 @@ const {
   createAccount,
   updateAccount,
   deleteAccount,
-} = require('../../controllers/account.controller')
+} = require('./account.controller')
 
 router.get('/', getAccounts)
 router.post('/', createAccount)

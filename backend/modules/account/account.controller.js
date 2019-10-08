@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi')
 
-const Account = require('../models/account.model');
+const Account = require('./account.model');
 
 const AccountValidation = (data) => {
   const schema = Joi.object({

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const timestamps = require('mongoose-timestamp');
 
-const Transaction = require('./transaction.model')
+const Transaction = require('../transaction/transaction.model')
 
 const AccountSchema = mongoose.Schema({
   name: {

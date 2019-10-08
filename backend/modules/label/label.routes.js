@@ -9,7 +9,7 @@ const {
   createLabel,
   updateLabel,
   deleteLabel,
-} = require('../../controllers/label.controller')
+} = require('./label.controller')
 
 router.get('/', getLabels)
 router.post('/', createLabel)

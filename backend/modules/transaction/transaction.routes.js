@@ -3,7 +3,7 @@ const router = express.Router()
 
 router.use(require('../../middleware/jwtAuthMW.js'))
 
-const Transaction = require('../../models/transaction.model.js');
+const Transaction = require('./transaction.model.js');
 
 const Joi = require('@hapi/joi')
 

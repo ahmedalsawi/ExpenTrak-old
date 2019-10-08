@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi')
 
-const Label = require('../models/label.model.js');
+const Label = require('./label.model.js');
 
 const labelValidation = (data) => {
   const schema = Joi.object({
