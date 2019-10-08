@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import TransactionsList from "components/TransactionsList";
 import TransactionsForm from "components/TransactionsForm";
@@ -10,9 +10,6 @@ class Transactions extends Component {
   render() {
     return (
       <div>
-        <Link className="btn " to={`${this.props.match.url}/new`}>
-          New
-        </Link>
         <Switch>
           <Route
             path={`${this.props.match.url}`}

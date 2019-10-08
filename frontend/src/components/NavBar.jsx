@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { logout } from "state-store/actions/authActions";
+import QuickAccessWidget from "./QuickAccessWidget";
+import ProfileWidget from "./ProfileWidget";
 
 class NavBar extends Component {
   render() {
@@ -14,10 +16,11 @@ class NavBar extends Component {
         <Link className="navbar-brand" to="/">
           ExpenTrak
         </Link>
-
-        <button className="btn btn-primary" onClick={() => this.props.logout()}>
-          Logout
-        </button>
+        <QuickAccessWidget />
+        <ProfileWidget
+          logout={this.props.logout}
+          email={this.props.auth.user.email}
+        />
       </Wrapper>
     );
   }
