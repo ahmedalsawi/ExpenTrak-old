@@ -2,9 +2,7 @@ import React, { Component } from "react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Home from "components/Home";
-import LoginPage from "components/LoginPage";
-import RegisterPage from "components/RegisterPage";
+import { Home, LoginPage, RegisterPage } from "components";
 
 import { Provider } from "react-redux";
 import store from "state-store/store";
@@ -25,6 +23,7 @@ class App extends Component {
     store.dispatch(loadUser());
   }
   render() {
+    // console.log(x);
     return (
       <div className="App">
         <Provider store={store}>
