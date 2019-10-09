@@ -20,6 +20,13 @@ export default function SideNav() {
         >
           Transactions
         </NavLink>
+        <NavLink
+          to="/labels"
+          className="list-group-item"
+          activeClassName="active"
+        >
+          Labels
+        </NavLink>
       </nav>
     </Wrapper>
   );

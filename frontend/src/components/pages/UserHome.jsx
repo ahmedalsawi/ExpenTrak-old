@@ -9,6 +9,8 @@ import Dashboard from "components/organisms/Dashboard";
 import Transactions from "components/organisms/Transactions";
 import Breadcrumb from "components/molecules/Breadcrumb";
 
+import { Labels } from "components";
+
 class UserHome extends Component {
   render() {
     return (
@@ -29,6 +31,7 @@ class UserHome extends Component {
                 />
                 <Route path="/dashboard" component={Dashboard} exact />
                 <Route path="/transactions" component={Transactions} />
+                <Route path="/labels" component={Labels} />
               </Switch>
             </div>
           </div>
