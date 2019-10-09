@@ -7,9 +7,8 @@ import SideBar from "components/molecules/SideNav";
 
 import Dashboard from "components/organisms/Dashboard";
 import Transactions from "components/organisms/Transactions";
-import Breadcrumb from "components/molecules/Breadcrumb";
 
-import { Labels } from "components";
+import { Labels, BreadcrumbRouterLink } from "components";
 
 class UserHome extends Component {
   render() {
@@ -28,7 +27,7 @@ class UserHome extends Component {
               />
             </div>
             <div className="col-12 col-md-9 col-xl-8" id="main-panel">
-              <Breadcrumb />
+              <BreadcrumbRouterLink />
               <Switch>
                 <Route
                   path="/"

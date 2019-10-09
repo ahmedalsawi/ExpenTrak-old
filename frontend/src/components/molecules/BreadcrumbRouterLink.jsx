@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
 
-function Breadcrumb(props) {
+function BreadcrumbRouterLink(props) {
   const segs = props.location.pathname.split("/");
   const path = segs.map((item, index) => {
     const to = segs.slice(0, index + 1).join("/");
@@ -19,4 +19,4 @@ function Breadcrumb(props) {
     </div>
   );
 }
-export default withRouter(Breadcrumb);
+export default withRouter(BreadcrumbRouterLink);
