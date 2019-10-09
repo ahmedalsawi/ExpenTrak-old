@@ -1,35 +1,16 @@
 import React from "react";
-import styled from "styled-components";
+
 import { NavLink } from "react-router-dom";
 
-export default function SideNav() {
+export default function SideNav(props) {
+  const links = props.links.map(link => (
+    <NavLink to={link.to} className="list-group-item" activeClassName="active">
+      {link.title}
+    </NavLink>
+  ));
   return (
-    <Wrapper>
-      <nav className="list-group">
-        <NavLink
-          to="/dashboard"
-          className="list-group-item"
-          activeClassName="active"
-        >
-          Dashboard
-        </NavLink>
-        <NavLink
-          to="/transactions"
-          className="list-group-item"
-          activeClassName="active"
-        >
-          Transactions
-        </NavLink>
-        <NavLink
-          to="/labels"
-          className="list-group-item"
-          activeClassName="active"
-        >
-          Labels
-        </NavLink>
-      </nav>
-    </Wrapper>
+    <div>
+      <nav className="list-group">{links}</nav>
+    </div>
   );
 }
-
-const Wrapper = styled.div``;

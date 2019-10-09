@@ -5,9 +5,12 @@ router.use(require('../../middleware/jwtAuthMW.js'))
 
 const Account = require('./account.model.js');
 
+const Joi = require('@hapi/joi')
 const AccountValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required()
+  }).options({
+    stripUnknown: true // Allow extra fields in sent object
   })
   return schema.validate(data);
 }

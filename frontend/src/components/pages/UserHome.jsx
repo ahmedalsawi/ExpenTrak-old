@@ -19,7 +19,13 @@ class UserHome extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12 col-md-3 col-xl-2" id="sidebar">
-              <SideBar />
+              <SideBar
+                links={[
+                  { to: "/dashboard", title: "Dashboard" },
+                  { to: "/transactions", title: "Transactions" },
+                  { to: "/labels", title: "Labels" }
+                ]}
+              />
             </div>
             <div className="col-12 col-md-9 col-xl-8" id="main-panel">
               <Breadcrumb />
