@@ -10,7 +10,7 @@ function QuickAccessWidget() {
         id="dropdownMenuButton"
         data-toggle="dropdown"
       >
-        New
+        <i className="fi-xwluxl-plus-wide"></i>
       </button>
       <div className="dropdown-menu">
         <Link className="dropdown-item" to="/transactions/new">

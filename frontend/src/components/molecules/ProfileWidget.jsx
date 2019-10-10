@@ -10,7 +10,7 @@ function ProfileWidget(props) {
         id="dropdownMenuButton"
         data-toggle="dropdown"
       >
-        User
+        <i className="fi-cnsuxl-user-circle-solid"></i>
       </button>
       <div className="dropdown-menu dropdown-menu-right">
         {/* <Link className="dropdown-item" to="/profile">
