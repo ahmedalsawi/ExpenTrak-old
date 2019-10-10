@@ -2,7 +2,9 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Joi = require('@hapi/joi')
+const uuidv4 = require('uuid/v4')
 
+const sendEmail = require('../../services/email.service')
 
 const User = require("./auth.model.js");
 
@@ -56,6 +58,7 @@ router.post("/login", async function (req, res) {
     });
   }
 
+
   const validPassword = await bcrypt.compare(
     validatedForm.value.password,
     user.password
@@ -66,6 +69,11 @@ router.post("/login", async function (req, res) {
     });
   }
 
+  if (user.active === false) {
+    return res.status(401).json({
+      message: "Email is not confirmed"
+    });
+  }
   const token = await jwt.sign({
       data: minifyUser(user)
     },
@@ -98,30 +106,76 @@ router.post("/register", async function (req, res) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(validatedForm.value.password, salt);
 
+  // Generate activation code
+  const activationCode = uuidv4();
+
   const user = new User({
     email: validatedForm.value.email,
     password: hash,
-    username: validatedForm.value.username
+    username: validatedForm.value.username,
+    active: false,
+    activationCode: activationCode
   });
 
   try {
     const newUser = await user.save();
 
-    const token = await jwt.sign({
-        data: minifyUser(newUser)
-      },
-      process.env.SECRET
-    );
+    // const token = await jwt.sign({
+    //     data: minifyUser(newUser)
+    //   },
+    //   process.env.SECRET
+    // );
 
-    res.status(200).json({
-      user: minifyUser(newUser),
-      token: token
-    });
+    // send email
+    const mailOptions = {
+      // from: 'sender@email.com', // sender address
+      to: newUser.email, // list of receivers
+      subject: 'Expentrak email confirmation', // Subject line
+      html: `<h1>To confirm you email, use the following link</h1>expenTrak.com/confirm/${newUser.activationCode}` // plain text body
+    };
+
+    // TODO do error checking for email
+    // sendEmail(mailOptions)
+
+    // res.status(200).json({
+    //   user: minifyUser(newUser),
+    //   token: token
+    // });
+    res.sendStatus(201);
   } catch (err) {
     res.status(400).json({
       message: err
     });
   }
 });
+
+
+router.get("/confirm/:code", async function (req, res) {
+  const code = req.params.code;
+
+  try {
+    const user = await User.findOneAndUpdate({
+      activationCode: code
+    }, {
+      active: true
+    }, {
+      new: true
+    })
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid activation code"
+      });
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({
+        message: "Invalid activation code"
+      });
+    }
+    return res.sendStatus(500);
+  }
+});
+
 
 module.exports = router;

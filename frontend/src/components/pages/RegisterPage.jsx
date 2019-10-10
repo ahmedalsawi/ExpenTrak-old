@@ -74,7 +74,7 @@ class RegisterPage extends Component {
                 ></input>
 
                 <input
-                  type="password2"
+                  type="password"
                   name="password2"
                   onChange={this.onChange}
                   value={password2}

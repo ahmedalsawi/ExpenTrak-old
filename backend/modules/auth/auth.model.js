@@ -15,7 +15,17 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
+  active: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  activationCode: {
+    type: String,
+    required: true,
+  },
+
 });
 UserSchema.plugin(timestamps);
 
