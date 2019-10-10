@@ -8,9 +8,10 @@ var fs = require('fs');
 
 router.use(require('../../middleware/jwtAuthMW.js'))
 
+const uploadPath = path.join(__dirname, "../..", "upload_dir")
 
 router.post("/", (req, res) => {
-  const dir = path.join("upload_dir", req.user._id);
+  const dir = path.join(uploadPath, req.user._id);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
@@ -32,21 +33,22 @@ router.post("/", (req, res) => {
     } else if (err) {
       return res.status(500).json(err);
     }
-    return res.status(200).send(req.file);
+    const resJson = {
+      filename: `${req.file.filename}`,
+      url: `/upload/${req.file.filename}`
+    }
+    return res.status(200).send(resJson);
   });
 });
 
-router.get("/:id/:file", async function (req, res) {
+router.get("/:file", async function (req, res) {
   const {
-    id,
     file
   } = req.params;
 
-  if (req.user._id !== id) {
-    return res.sendStatus(401);
-  }
+  const id = req.user._id;
 
-  const filePath = path.join(__dirname, "../..", "upload_dir", id, file)
+  const filePath = path.join(uploadPath, id, file)
 
   fs.access(filePath, fs.F_OK, (err) => {
     if (err) {
@@ -57,4 +59,5 @@ router.get("/:id/:file", async function (req, res) {
   })
 
 });
+
 module.exports = router
