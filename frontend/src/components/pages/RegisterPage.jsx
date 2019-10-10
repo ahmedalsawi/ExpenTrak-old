@@ -89,7 +89,7 @@ class RegisterPage extends Component {
             </div>
             <div className="card-footer">
               <div className="d-flex justify-content-center links">
-                Already Have account?<Link href="/login">Login</Link>
+                Already Have account?<Link to="/login">Login</Link>
               </div>
             </div>
           </div>
