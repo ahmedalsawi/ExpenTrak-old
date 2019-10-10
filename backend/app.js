@@ -15,13 +15,13 @@ app.use(require("helmet")()); // Security module
 
 // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 // see https://expressjs.com/en/guide/behind-proxies.html
-// app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 500 // limit each IP to N requests per windowMs
 });
-
 app.use(limiter);
+
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -40,39 +40,12 @@ app.use("/api/labels", require("./modules/label/label.routes"));
 app.use("/api/accounts", require("./modules/account/account.routes"));
 
 // public Upload endpoint
-var multer = require("multer");
+app.use("/upload", require("./modules/upload/upload.routes"))
 
-var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "public");
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
-});
 
-var upload = multer({ storage: storage }).single("file");
-
-app.post("/upload", function(req, res) {
-  upload(req, res, function(err) {
-    if (err instanceof multer.MulterError) {
-      return res.status(500).json(err);
-    } else if (err) {
-      return res.status(500).json(err);
-    }
-    return res.status(200).send(req.file);
-  });
-});
-
-// Catch all 404
-app.use(function(req, res, next) {
-  return res.status(404).send({
-    message: "Route " + req.url + " Not found."
-  });
-});
 
 // // Serve static files
-// app.use(express.static(path.join(__dirname, "static")))
+// app.use(express.static(path.join(__dirname, "public")))
 // app.use(express.static(path.join(__dirname, '/frontend/build')));
 
 // // Route all other routes to frontend
@@ -80,6 +53,13 @@ app.use(function(req, res, next) {
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname + '/frontend/build/index.html'));
 // });
+
+// Catch all 404
+app.use(function (req, res, next) {
+  return res.status(404).send({
+    message: "Route " + req.url + " Not found."
+  });
+});
 
 // Mongodb
 mongoose.connect(process.env.MONGODB, {
@@ -91,7 +71,7 @@ mongoose.connect(process.env.MONGODB, {
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {
+db.once("open", function () {
   console.log(`Connected to Database ${process.env.MONGODB}`);
 
   // Start The server
