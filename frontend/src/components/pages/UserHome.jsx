@@ -10,37 +10,34 @@ import Transactions from "components/organisms/Transactions";
 
 import { Labels } from "components";
 
+import { UserPageTemplate } from "components";
+
 class UserHome extends Component {
   render() {
     return (
-      <div>
-        <NavBar />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-12 col-md-3 col-xl-2" id="sidebar">
-              <SideBar
-                links={[
-                  { to: "/dashboard", title: "Dashboard" },
-                  { to: "/transactions", title: "Transactions" },
-                  { to: "/labels", title: "Labels" }
-                ]}
-              />
-            </div>
-            <div className="col-12 col-md-9 col-xl-8" id="main-panel">
-              <Switch>
-                <Route
-                  path="/"
-                  component={() => <Redirect to="/dashboard" />}
-                  exact
-                />
-                <Route path="/dashboard" component={Dashboard} exact />
-                <Route path="/transactions" component={Transactions} />
-                <Route path="/labels" component={Labels} />
-              </Switch>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UserPageTemplate
+        header={<NavBar />}
+        sidebar={
+          <SideBar
+            links={[
+              { to: "/dashboard", title: "Dashboard" },
+              { to: "/transactions", title: "Transactions" },
+              { to: "/labels", title: "Labels" }
+            ]}
+          />
+        }
+      >
+        <Switch>
+          <Route
+            path="/"
+            component={() => <Redirect to="/dashboard" />}
+            exact
+          />
+          <Route path="/dashboard" component={Dashboard} exact />
+          <Route path="/transactions" component={Transactions} />
+          <Route path="/labels" component={Labels} />
+        </Switch>
+      </UserPageTemplate>
     );
   }
 }
