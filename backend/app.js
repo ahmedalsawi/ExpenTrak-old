@@ -1,9 +1,9 @@
-const express = require('express');
-const path = require('path');
-const config = require('dotenv').config()
-const mongoose = require('mongoose');
+const express = require("express");
+const path = require("path");
+const config = require("dotenv").config();
+const mongoose = require("mongoose");
 
-var morgan = require('morgan')
+var morgan = require("morgan");
 
 const rateLimit = require("express-rate-limit");
 
@@ -11,7 +11,7 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 
 // Middleware
-app.use(require('helmet')()); // Security module
+app.use(require("helmet")()); // Security module
 
 // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 // see https://expressjs.com/en/guide/behind-proxies.html
@@ -22,22 +22,52 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-app.use(express.json())
-app.use(express.urlencoded({
-  extended: true
-}))
-app.use(morgan('dev'))
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
+app.use(morgan("dev"));
 
 // Routes
-app.use('/api/auth', require('./modules/auth/auth.routes'))
-app.use('/api/transactions', require('./modules/transaction/transaction.routes'))
-app.use('/api/labels', require('./modules/label/label.routes'))
-app.use('/api/accounts', require('./modules/account/account.routes'))
+app.use("/api/auth", require("./modules/auth/auth.routes"));
+app.use(
+  "/api/transactions",
+  require("./modules/transaction/transaction.routes")
+);
+app.use("/api/labels", require("./modules/label/label.routes"));
+app.use("/api/accounts", require("./modules/account/account.routes"));
+
+// public Upload endpoint
+var multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "public");
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage }).single("file");
+
+app.post("/upload", function(req, res) {
+  upload(req, res, function(err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err);
+    } else if (err) {
+      return res.status(500).json(err);
+    }
+    return res.status(200).send(req.file);
+  });
+});
 
 // Catch all 404
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   return res.status(404).send({
-    message: 'Route ' + req.url + ' Not found.'
+    message: "Route " + req.url + " Not found."
   });
 });
 
@@ -60,13 +90,13 @@ mongoose.connect(process.env.MONGODB, {
 });
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  console.log(`Connected to Database ${process.env.MONGODB}`)
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+  console.log(`Connected to Database ${process.env.MONGODB}`);
 
   // Start The server
-  PORT = process.env.PORT
+  PORT = process.env.PORT;
   const server = app.listen(PORT, () => {
     console.log(`Starting server on  ${PORT}`);
-  })
+  });
 });
