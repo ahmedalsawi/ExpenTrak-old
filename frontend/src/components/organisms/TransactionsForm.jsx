@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import apiObject from "api/index";
 
+import { SelectMultiple } from "components";
+
 function TransactionsForm(props) {
   const [form, setForm] = useState({
     name: "",
@@ -83,19 +85,6 @@ function TransactionsForm(props) {
     }
   };
 
-  const onChangeSelectMultiple = e => {
-    const opts = e.target.options;
-
-    const selectedLabels = [];
-    for (var opt, j = 0; (opt = opts[j]); j++) {
-      if (opt.selected === true) {
-        selectedLabels.push(opt.value);
-      }
-    }
-
-    setForm({ ...form, [e.target.name]: selectedLabels });
-  };
-
   return (
     <div>
       <form className="form-group" onSubmit={onSubmit}>
@@ -152,21 +141,18 @@ function TransactionsForm(props) {
           })}
         </select>
 
-        <select
-          multiple
+        <SelectMultiple
           className="form-control"
           name="labels"
-          onChange={onChangeSelectMultiple}
+          onChange={onChange}
           value={form.labels}
-        >
-          {labels.map(item => {
-            return (
-              <option key={item._id} value={item._id}>
-                {item.name}
-              </option>
-            );
+          options={labels.map(item => {
+            return {
+              name: item.name,
+              value: item._id
+            };
           })}
-        </select>
+        ></SelectMultiple>
 
         <button onSubmit={onSubmit}>Save</button>
       </form>
