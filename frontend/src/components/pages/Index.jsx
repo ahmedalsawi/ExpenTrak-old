@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import GuestHome from "components/pages/GuestHome";
 import UserHome from "./UserHome";
 
-class Home extends Component {
+class Index extends Component {
   render() {
     const isAuthenticated = this.props.isAuthenticated;
 
@@ -20,4 +20,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {}
-)(Home);
+)(Index);

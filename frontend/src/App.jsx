@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Home, LoginPage, RegisterPage } from "components";
+import { Index, LoginPage, RegisterPage } from "components";
 
 import { Provider } from "react-redux";
 import store from "state-store/store";
@@ -31,7 +31,7 @@ class App extends Component {
             <Switch>
               <Route path="/login" component={LoginPage} exact />
               <Route path="/register" component={RegisterPage} exact />
-              <Route path="/" component={Home} />
+              <Route path="/" component={Index} />
             </Switch>
           </Router>
         </Provider>
