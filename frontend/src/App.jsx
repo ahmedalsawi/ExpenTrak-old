@@ -23,7 +23,6 @@ class App extends Component {
     store.dispatch(loadUser());
   }
   render() {
-    // console.log(x);
     return (
       <div className="App">
         <Provider store={store}>
