@@ -16,11 +16,25 @@ class NavBar extends Component {
           ExpenTrak
         </Link>
         <div className="d-flex space-between">
-          <QuickAccessWidget />
+          <QuickAccessWidget>
+            <Link className="dropdown-item" to="/transactions/new">
+              Transaction
+            </Link>
+          </QuickAccessWidget>
           <ProfileWidget
             logout={this.props.logout}
             email={this.props.auth.user.email}
-          />
+          >
+            <p className="dropdown-item disabled">
+              Logged in as {this.props.auth.user.email}
+            </p>
+            <button
+              className="dropdown-item"
+              onClick={() => this.props.logout()}
+            >
+              Logout
+            </button>
+          </ProfileWidget>
         </div>
       </Wrapper>
     );

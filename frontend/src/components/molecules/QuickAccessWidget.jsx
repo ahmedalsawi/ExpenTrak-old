@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function QuickAccessWidget() {
+function QuickAccessWidget(props) {
   return (
     <div className="dropdown">
       <button
@@ -12,11 +12,7 @@ function QuickAccessWidget() {
       >
         <i className="fi-xwluxl-plus-wide"></i>
       </button>
-      <div className="dropdown-menu dropdown-menu-right">
-        <Link className="dropdown-item" to="/transactions/new">
-          Transaction
-        </Link>
-      </div>
+      <div className="dropdown-menu dropdown-menu-right">{props.children}</div>
     </div>
   );
 }

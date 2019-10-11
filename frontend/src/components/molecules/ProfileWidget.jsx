@@ -12,15 +12,7 @@ function ProfileWidget(props) {
       >
         <i className="fi-cnsuxl-user-circle-solid"></i>
       </button>
-      <div className="dropdown-menu dropdown-menu-right">
-        <p className="dropdown-item disabled">Logged in as {props.email}</p>
-        {/* <Link className="dropdown-item" to="/profile">
-          Profile
-        </Link> */}
-        <button className="dropdown-item" onClick={() => props.logout()}>
-          Logout
-        </button>
-      </div>
+      <div className="dropdown-menu dropdown-menu-right">{props.children}</div>
     </div>
   );
 }
