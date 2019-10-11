@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import apiObject from "api/index";
 
-import NotFount404Page from "components/pages/NotFound404Page";
+import NotFound404Page from "components/pages/NotFound404Page";
 
 import TransactionsForm from "components/organisms/TransactionsForm";
 
@@ -76,7 +76,7 @@ function TransactionsDetails(props) {
   return (
     <React.Fragment>
       {isError ? (
-        <NotFount404Page />
+        <NotFound404Page />
       ) : isLoading ? (
         <div>Loading ...</div>
       ) : (

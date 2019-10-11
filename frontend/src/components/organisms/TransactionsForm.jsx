@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import apiObject from "api/index";
 
-import { SelectMultiple } from "components";
+import { SelectMultiple, Select } from "components";
 
 function TransactionsForm(props) {
   const [form, setForm] = useState({
@@ -123,23 +123,18 @@ function TransactionsForm(props) {
           placeholder="Notes"
         ></input>
 
-        <select
+        <Select
           className="form-control"
           name="account"
           onChange={onChange}
           value={form.account}
-        >
-          <option key="id" value="">
-            ----
-          </option>
-          {accounts.map(item => {
-            return (
-              <option key={item._id} value={item._id}>
-                {item.name}
-              </option>
-            );
+          options={accounts.map(item => {
+            return {
+              name: item.name,
+              value: item._id
+            };
           })}
-        </select>
+        ></Select>
 
         <SelectMultiple
           className="form-control"
