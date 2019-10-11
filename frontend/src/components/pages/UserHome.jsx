@@ -8,7 +8,7 @@ import SideBar from "components/molecules/SideNav";
 import Dashboard from "components/organisms/Dashboard";
 import Transactions from "components/organisms/Transactions";
 
-import { Labels } from "components";
+import { Labels, Accounts } from "components";
 
 import { UserPageTemplate } from "components";
 
@@ -22,7 +22,8 @@ class UserHome extends Component {
             links={[
               { to: "/dashboard", title: "Dashboard" },
               { to: "/transactions", title: "Transactions" },
-              { to: "/labels", title: "Labels" }
+              { to: "/labels", title: "Labels" },
+              { to: "/accounts", title: "Accounts" }
             ]}
           />
         }
@@ -36,6 +37,7 @@ class UserHome extends Component {
           <Route path="/dashboard" component={Dashboard} exact />
           <Route path="/transactions" component={Transactions} />
           <Route path="/labels" component={Labels} />
+          <Route path="/accounts" component={Accounts} />
         </Switch>
       </UserPageTemplate>
     );

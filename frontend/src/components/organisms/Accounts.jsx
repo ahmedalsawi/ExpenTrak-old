@@ -3,8 +3,8 @@ import apiObject from "api/index";
 
 import { TableList } from "components";
 
-function Labels(props) {
-  const [labels, setLabels] = useState([]);
+function Accounts(props) {
+  const [accounts, setAccounts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [isError, setIsError] = useState(false);
@@ -22,8 +22,8 @@ function Labels(props) {
       setIsError(false);
 
       try {
-        const data = await apiObject.labelsAPI.getAllRes();
-        if (!didCancel) setLabels(data);
+        const data = await apiObject.accountsAPI.getAllRes();
+        if (!didCancel) setAccounts(data);
       } catch (err) {
         console.log(err);
         setIsError(true);
@@ -45,21 +45,21 @@ function Labels(props) {
 
   const onDelete = async item => {
     try {
-      await apiObject.labelsAPI.deleteOneRes(item._id);
-      const newLabels = labels.filter(l => l._id !== item._id);
-      setLabels(newLabels);
+      await apiObject.accountsAPI.deleteOneRes(item._id);
+      const newLabels = accounts.filter(l => l._id !== item._id);
+      setAccounts(newLabels);
     } catch (err) {
       console.log(err);
     }
   };
 
   const ListView =
-    labels.length === 0 ? (
-      <p>No labels</p>
+    accounts.length === 0 ? (
+      <p>No accounts</p>
     ) : (
       <React.Fragment>
         <TableList
-          data={labels}
+          data={accounts}
           header={["name"]}
           onEdit={onEdit}
           onDelete={onDelete}
@@ -77,13 +77,13 @@ function Labels(props) {
 
     if (form._id) {
       const updateItem = resource => {
-        apiObject.labelsAPI
+        apiObject.accountsAPI
           .putOneRes(resource)
           .then(data => {
-            const newLables = labels.map(l => {
+            const newLables = accounts.map(l => {
               return l._id === form._id ? data : l;
             });
-            setLabels(newLables);
+            setAccounts(newLables);
           })
           .catch(err => {
             console.log(err);
@@ -93,10 +93,10 @@ function Labels(props) {
       updateItem(form);
     } else {
       const addItem = resource => {
-        apiObject.labelsAPI
+        apiObject.accountsAPI
           .postOneRes(resource)
           .then(data => {
-            setLabels([...labels, data]);
+            setAccounts([...accounts, data]);
           })
           .catch(err => {
             console.log(err);
@@ -133,4 +133,4 @@ function Labels(props) {
   );
 }
 
-export default Labels;
+export default Accounts;
