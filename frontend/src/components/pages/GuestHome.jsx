@@ -21,7 +21,7 @@ export default class GuestHome extends Component {
             </Link>
           </div>
         </header>
-        <body className="d-flex flex-column" id="page-content">
+        <div className="d-flex flex-column" id="page-content">
           <div id="section1">
             <div className="jumbotron m-0 rounded-0">
               <h1 className="display-4">Track your Expenses easily</h1>
@@ -29,9 +29,9 @@ export default class GuestHome extends Component {
             </div>
           </div>
           <div id="section2"></div>
-        </body>
-        <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-          <div class="container text-center">
+        </div>
+        <footer id="sticky-footer" className="py-4 bg-dark text-white-50">
+          <div className="container text-center">
             {/* <small> &copy; EnpenTrak</small> */}
           </div>
         </footer>
