@@ -2,10 +2,13 @@ import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
 
+import { AlertFlash } from "components";
+
 class LoginForm extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errMsg: ""
   };
 
   onSubmit = e => {
@@ -13,13 +16,22 @@ class LoginForm extends Component {
 
     const { email, password } = this.state;
 
+    // validation
+    if (email === "" || password === "") {
+      this.setState({ ...this.state, errMsg: "All Fields required" });
+      return;
+    }
     this.props.login(email, password);
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
+  onClick = e => {
+    this.setState({ ...this.state, errMsg: "" });
+  };
+
   render() {
-    const { email, password } = this.state;
+    const { email, password, errMsg } = this.state;
     return (
       <div className="login-wrapper d-flex flex-column">
         <div className="header-logo"></div>
@@ -27,9 +39,9 @@ class LoginForm extends Component {
           <h1 className="text-center">Login</h1>
         </div>
 
-        <div className="form-wrapper card">
-          <div className="form-message"></div>
+        <AlertFlash message={errMsg} onClick={this.onClick}></AlertFlash>
 
+        <div className="form-wrapper card">
           <div className="card-body">
             <form onSubmit={this.onSubmit} className="form-group">
               <label className="font-weight-bold">Email</label>
@@ -44,7 +56,7 @@ class LoginForm extends Component {
 
               <label className="d-flex justify-content-between mt-2">
                 <div className="font-weight-bold">Password</div>
-                <Link>Forget password?</Link>
+                <Link to="/forgetpassword">Forget password?</Link>
               </label>
               <input
                 type="password"
