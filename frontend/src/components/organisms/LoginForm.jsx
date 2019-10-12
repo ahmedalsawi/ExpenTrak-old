@@ -21,41 +21,52 @@ class LoginForm extends Component {
   render() {
     const { email, password } = this.state;
     return (
-      <div className="card">
-        <div className="card-header">
-          <p>Login</p>
+      <div className="login-wrapper d-flex flex-column">
+        <div className="header-logo"></div>
+        <div className="header-title">
+          <h1 className="text-center">Login</h1>
         </div>
 
-        <div className="card-body">
-          <form onSubmit={this.onSubmit} className="form-group">
-            <input
-              type="email"
-              name="email"
-              onChange={this.onChange}
-              value={email}
-              className="form-control"
-              placeholder="Email"
-            ></input>
-            <input
-              type="password"
-              name="password"
-              onChange={this.onChange}
-              value={password}
-              className="form-control"
-              placeholder="Password"
-            ></input>
-            <button type="submit" className="btn btn-primary">
-              Login
-            </button>
-          </form>
-        </div>
-        <div className="card-footer">
-          <div className="d-flex justify-content-center links">
-            Don't have an account?<Link to="/register">Register</Link>
+        <div className="form-wrapper card">
+          <div className="form-message"></div>
+
+          <div className="card-body">
+            <form onSubmit={this.onSubmit} className="form-group">
+              <label className="font-weight-bold">Email</label>
+              <input
+                type="email"
+                name="email"
+                onChange={this.onChange}
+                value={email}
+                className="form-control"
+                autoComplete="off"
+              ></input>
+
+              <label className="d-flex justify-content-between mt-2">
+                <div className="font-weight-bold">Password</div>
+                <Link>Forget password?</Link>
+              </label>
+              <input
+                type="password"
+                name="password"
+                onChange={this.onChange}
+                value={password}
+                className="form-control"
+                autoComplete="off"
+              ></input>
+
+              <button
+                type="submit"
+                className="form-control btn btn-primary mt-3"
+              >
+                LOGIN
+              </button>
+            </form>
           </div>
-          {/* <div className="d-flex justify-content-center">
-            <Link to="#">Forgot your password?</Link>
-          </div> */}
+        </div>
+
+        <div className="form-footer">
+          <Link to="/register">Don't have an account?</Link>
         </div>
       </div>
     );
