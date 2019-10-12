@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 
-import apiObject from "api/index";
+import ETAPIs from "services/ETAPIs";
 
 function TransactionsListView({ transactions }) {
   return (
@@ -38,8 +38,8 @@ function TransactionsList(props) {
       setIsError(false);
 
       try {
-        const data = await apiObject.transactionAPI.getAllRes();
-        if (!didCancel) setTransactions(data);
+        const res = await ETAPIs.endpoints.transactions.getAll();
+        if (!didCancel) setTransactions(res.data);
       } catch (err) {
         console.log(err);
         setIsError(true);

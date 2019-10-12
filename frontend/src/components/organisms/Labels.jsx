@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import apiObject from "api/index";
 
 import { TableList } from "components";
+
+import ETAPIs from "services/ETAPIs";
 
 function Labels(props) {
   const [labels, setLabels] = useState([]);
@@ -22,7 +23,7 @@ function Labels(props) {
       setIsError(false);
 
       try {
-        const data = await apiObject.labelsAPI.getAllRes();
+        const { data } = await ETAPIs.endpoints.labels.getAll();
         if (!didCancel) setLabels(data);
       } catch (err) {
         console.log(err);
@@ -45,7 +46,7 @@ function Labels(props) {
 
   const onDelete = async item => {
     try {
-      await apiObject.labelsAPI.deleteOneRes(item._id);
+      await ETAPIs.endpoints.labels.delete(item._id);
       const newLabels = labels.filter(l => l._id !== item._id);
       setLabels(newLabels);
     } catch (err) {
@@ -73,15 +74,14 @@ function Labels(props) {
 
   const onSubmit = async e => {
     e.preventDefault();
-    console.log(form);
 
     if (form._id) {
       const updateItem = resource => {
-        apiObject.labelsAPI
-          .putOneRes(resource)
-          .then(data => {
+        ETAPIs.endpoints.labels
+          .update(resource._id, resource)
+          .then(res => {
             const newLables = labels.map(l => {
-              return l._id === form._id ? data : l;
+              return l._id === form._id ? res.data : l;
             });
             setLabels(newLables);
           })
@@ -93,10 +93,10 @@ function Labels(props) {
       updateItem(form);
     } else {
       const addItem = resource => {
-        apiObject.labelsAPI
-          .postOneRes(resource)
-          .then(data => {
-            setLabels([...labels, data]);
+        ETAPIs.endpoints.labels
+          .create(resource)
+          .then(res => {
+            setLabels([...labels, res.data]);
           })
           .catch(err => {
             console.log(err);

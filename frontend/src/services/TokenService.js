@@ -1,26 +1,36 @@
-class TokenService {
+export class TokenService {
 
-  formatToken(token) {
+  static formatToken(token) {
     if (token) {
       return `Token ${token}`
     }
   }
 
-  storeToken(token) {}
+  static storeToken(TokenName, token) {}
 
-  loadToken() {}
+  static loadToken(TokenName) {
 
-  genConfig() {
+    // TODO implement session storage as well
+    const token = localStorage.getItem(TokenName);
+
+    return token;
+  }
+
+  static genConfig(TokenName) {
     const config = {
       headers: {
         "Content-Type": "application/json"
       }
     };
 
+    let token = localStorage.getItem(TokenName);
+    if (token) {
+      config.headers["Authorization"] = `Token ${token}`;
+    }
     return config;
   }
 
-  tokenConfig = getState => {
+  static tokenConfig = getState => {
     const token = getState().authReducer.token;
 
     const config = {

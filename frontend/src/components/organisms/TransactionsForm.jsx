@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import apiObject from "api/index";
-
 import { SelectMultiple, Select } from "components";
+
+import ETAPIs from "services/ETAPIs";
 
 function TransactionsForm(props) {
   const [form, setForm] = useState({
@@ -19,8 +19,8 @@ function TransactionsForm(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const labels = await apiObject.labelsAPI.getAllRes();
-        setLables(labels);
+        const res = await ETAPIs.endpoints.labels.getAll();
+        setLables(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -31,8 +31,8 @@ function TransactionsForm(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const accounts = await apiObject.accountsAPI.getAllRes();
-        setAccounts(accounts);
+        const res = await ETAPIs.endpoints.accounts.getAll();
+        setAccounts(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -58,9 +58,9 @@ function TransactionsForm(props) {
 
     if (form._id) {
       const updateTransaction = resource => {
-        apiObject.transactionAPI
-          .putOneRes(resource)
-          .then(data => {
+        ETAPIs.endpoints.transactions
+          .update(resource._id, resource)
+          .then(res => {
             props.history.push("/transactions");
           })
           .catch(err => {
@@ -71,9 +71,9 @@ function TransactionsForm(props) {
       updateTransaction(form);
     } else {
       const addTransaction = resource => {
-        apiObject.transactionAPI
-          .postOneRes(resource)
-          .then(data => {
+        ETAPIs.endpoints.transactions
+          .create(resource)
+          .then(res => {
             props.history.push("/transactions");
           })
           .catch(err => {

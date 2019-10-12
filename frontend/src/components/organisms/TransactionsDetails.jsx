@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import apiObject from "api/index";
-
 import NotFound404Page from "components/pages/NotFound404Page";
 
 import TransactionsForm from "components/organisms/TransactionsForm";
+import ETAPIs from "services/ETAPIs";
 
 function TransactionsDetailsView({ transaction, onDelete, onEdit }) {
   return (
@@ -32,10 +31,10 @@ function TransactionsDetails(props) {
       setIsError(false);
 
       try {
-        const data = await apiObject.transactionAPI.getOneRes(
+        const res = await ETAPIs.endpoints.transactions.getOne(
           props.match.params.Id
         );
-        if (!didCancel) setTransaction(data);
+        if (!didCancel) setTransaction(res.data);
       } catch (err) {
         console.log(err);
         setIsError(true);
@@ -52,7 +51,7 @@ function TransactionsDetails(props) {
 
   const onDelete = async () => {
     try {
-      await apiObject.transactionAPI.deleteOneRes(transaction._id);
+      await ETAPIs.endpoints.transactions.delete(transaction._id);
       props.history.push("/transactions");
     } catch (err) {
       console.log(err);

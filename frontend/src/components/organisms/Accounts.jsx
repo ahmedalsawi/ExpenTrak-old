@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import apiObject from "api/index";
 
 import { TableList } from "components";
+
+import ETAPIs from "services/ETAPIs";
 
 function Accounts(props) {
   const [accounts, setAccounts] = useState([]);
@@ -22,8 +23,8 @@ function Accounts(props) {
       setIsError(false);
 
       try {
-        const data = await apiObject.accountsAPI.getAllRes();
-        if (!didCancel) setAccounts(data);
+        const res = await ETAPIs.endpoints.accounts.getAll();
+        if (!didCancel) setAccounts(res.data);
       } catch (err) {
         console.log(err);
         setIsError(true);
@@ -45,7 +46,7 @@ function Accounts(props) {
 
   const onDelete = async item => {
     try {
-      await apiObject.accountsAPI.deleteOneRes(item._id);
+      await ETAPIs.endpoints.accounts.delete(item._id);
       const newLabels = accounts.filter(l => l._id !== item._id);
       setAccounts(newLabels);
     } catch (err) {
@@ -77,11 +78,11 @@ function Accounts(props) {
 
     if (form._id) {
       const updateItem = resource => {
-        apiObject.accountsAPI
-          .putOneRes(resource)
-          .then(data => {
+        ETAPIs.endpoints.accounts
+          .update(resource._id, resource)
+          .then(res => {
             const newLables = accounts.map(l => {
-              return l._id === form._id ? data : l;
+              return l._id === form._id ? res.data : l;
             });
             setAccounts(newLables);
           })
@@ -93,10 +94,10 @@ function Accounts(props) {
       updateItem(form);
     } else {
       const addItem = resource => {
-        apiObject.accountsAPI
-          .postOneRes(resource)
-          .then(data => {
-            setAccounts([...accounts, data]);
+        ETAPIs.endpoints.accounts
+          .create(resource)
+          .then(res => {
+            setAccounts([...accounts, res.data]);
           })
           .catch(err => {
             console.log(err);
