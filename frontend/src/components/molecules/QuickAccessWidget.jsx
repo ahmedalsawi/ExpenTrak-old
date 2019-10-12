@@ -9,7 +9,7 @@ function QuickAccessWidget(props) {
         id="dropdownMenuButton"
         data-toggle="dropdown"
       >
-        <i className="fi-xwluxl-plus-wide"></i>
+        Add
       </button>
       <div className="dropdown-menu dropdown-menu-right">{props.children}</div>
     </div>
